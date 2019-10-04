@@ -9,9 +9,9 @@ const {
 } = config[process.env.NODE_ENV];
 console.log(API_URL, ClientID, RedirectURL )
 const AuthService = {
-  auth: function(email, password) {
+  auth: function() {
     const authURL  =  `https://account-d.docusign.com/oauth/auth?response_type=code&scope=signature&client_id=${ClientID}&state=a39fh23hnf23&redirect_uri=${RedirectURL}`
-    return axios.get(API_URL + '/auth', { email: email, password: password });
+    return axios.get(authURL);
   },
   login: function(email, password) {
     return axios.post(API_URL + '/auth', { email: email, password: password });
