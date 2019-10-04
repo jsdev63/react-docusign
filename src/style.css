@@ -2,3 +2,26 @@
 .register-form {
   margin-top: 50px;
 }
+.form-body {
+  padding: 4rem 3rem 2rem 3rem !important;
+  height: 800px;
+}
+.form-spacing {
+  padding-top: 4rem !important; 
+}
+.form-footer {
+  padding-top: 8rem;
+}
+.docusign-btn {
+  width: 255px !important;
+  margin: 0 auto !important;
+}
+.document-title {
+  border-bottom: solid 4px !important;
+  padding-bottom: 5px !important;
+  width: fit-content !important;
+  margin-top: 3rem !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  margin-bottom: 40px !important;
+}

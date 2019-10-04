@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Button, Form, Grid, Header, Image, Message, Segment,
- Loader } from 'semantic-ui-react'
-
+import { 
+  Button, Form, Grid, Header, Image, Message, Segment,  Loader 
+} from 'semantic-ui-react'
 import validateInput from '../validators/login';
 import { loginUser } from '../store/actions/auth';
 
