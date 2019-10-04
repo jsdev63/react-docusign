@@ -4,9 +4,15 @@
  */
 import axios from 'axios';
 import { config } from '../config';
-const { API_URL } = config[process.env.NODE_ENV];
-console.log(API_URL)
+const {
+  API_URL, ClientID, RedirectURL 
+} = config[process.env.NODE_ENV];
+console.log(API_URL, ClientID, RedirectURL )
 const AuthService = {
+  auth: function(email, password) {
+    const authURL  =  `https://account-d.docusign.com/oauth/auth?response_type=code&scope=signature&client_id=${ClientID}&state=a39fh23hnf23&redirect_uri=${RedirectURL}`
+    return axios.get(API_URL + '/auth', { email: email, password: password });
+  },
   login: function(email, password) {
     return axios.post(API_URL + '/auth', { email: email, password: password });
   },
