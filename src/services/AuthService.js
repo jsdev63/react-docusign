@@ -3,8 +3,9 @@
  * Auth Service
  */
 import axios from 'axios';
-import { API_URL } from '../config';
-
+import { config } from '../config';
+const { API_URL } = config[process.env.NODE_ENV];
+console.log(API_URL)
 const AuthService = {
   login: function(email, password) {
     return axios.post(API_URL + '/auth', { email: email, password: password });
