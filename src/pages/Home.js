@@ -5,19 +5,19 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import validateInput from '../validators/docsForm';
-import { loginUser } from '../store/actions/auth';
+import { sendEnvelope } from '../store/actions/envelope';
 
 class DocusignForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      firstName: '',
-      lastName: '',
-      phoneNumber: '',
-      email: '',
-      address: '',
-      city: '',
-      state: '',
+      firstName: 'Test',
+      lastName: 'User',
+      phoneNumber: '123123',
+      email: 'testatwe',
+      address: 'fwefwefwe',
+      city: '234234',
+      state: '12312',
       errors: {},
       isLoading: false
     };
@@ -27,7 +27,7 @@ class DocusignForm extends Component {
     e.preventDefault();
     if (this.isValid()) {
       this.setState({ errors: {}, isLoading: true });
-      this.props.loginUser(this.state, this.props.history);
+      this.props.sendEnvelope(this.state, this.props.history);
     }
   }
 
@@ -114,6 +114,7 @@ class DocusignForm extends Component {
                     <Grid.Column>
                       <Form.Input
                         fluid
+                        type='email'
                         placeholder='Email'
                         name='email'
                         defaultValue={email}
@@ -191,4 +192,4 @@ const mapStateToProps = (state) => ({
   errors: state.errors
 })
 
-export default connect(mapStateToProps, { loginUser })(DocusignForm)
+export default connect(mapStateToProps, { sendEnvelope })(DocusignForm)

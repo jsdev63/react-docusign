@@ -1,7 +1,8 @@
 const jsonServer = require('json-server')
+const dsEnvelope = require('./lib/dsEnvelope')
+
 const server = jsonServer.create()
 const middlewares = jsonServer.defaults()
-
 server.use(jsonServer.bodyParser);
 server.use(middlewares);
 
@@ -22,19 +23,10 @@ const authUser = (req) => {
   return req.body.email === testUser.email && req.body.password === testUser.password;
 }
 
-server.post('/auth', (req, res) => {
-  if (authUser(req)) {
-    res.status(200).json({
-      success: true,
-      token: testToken,
-      profile: testProfile
-    });
-  } else {
-    res.status(401).json({
-      success: false,
-      error: 'Email or password incorrect'
-    });
-  }
+server.post('/sendEnvelope', async (req, res) => {
+  const results = await dsEnvelope.sendEnvelope(req.body)
+  console.log(results)
+  res.status(200).send(results)
 });
 
 server.post('/register', (req, res) => {

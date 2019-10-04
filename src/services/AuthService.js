@@ -3,10 +3,10 @@
  * Auth Service
  */
 import axios from 'axios';
-import { config } from '../config';
+import { config } from './../config';
 const {
   API_URL, ClientID, RedirectURL, APP_URL
-} = config[process.env.NODE_ENV];
+} = config;
 console.log(API_URL, ClientID, RedirectURL )
 const AuthService = {
   auth: function() {
