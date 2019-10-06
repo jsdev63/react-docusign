@@ -74,7 +74,7 @@ class DocusignForm extends Component {
             <Form size='large' onSubmit={this.onSubmit}>
               <Segment stacked className='form-body'>
                 <Header as='h2' color='teal' textAlign='center' className="document-title">
-                  Docusign Consept Proof
+                  Docusign Consept Proof Example
                 </Header>
                 
                 <Grid columns={2} stackable textAlign='center'>
