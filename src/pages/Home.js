@@ -3,25 +3,24 @@ import { Button, Form, Grid, Header, Segment, Loader } from 'semantic-ui-react'
 // import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-
+import { Messages } from '../components/Messages';
 import validateInput from '../validators/docsForm';
 import { sendEnvelope } from '../store/actions/envelope';
+var _ = require('lodash');
 
 class DocusignForm extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      firstName: 'Test',
-      lastName: 'User',
-      phoneNumber: '123123',
-      email: 'testatwe',
-      address: 'fwefwefwe',
-      city: '234234',
-      state: '12312',
-      errors: {},
-      isLoading: false
-    };
-  }
+  state = {
+    firstName: 'Test',
+    lastName: 'User',
+    phoneNumber: '123123',
+    email: 'testatwe',
+    address: 'fwefwefwe',
+    city: '234234',
+    state: '12312',
+    errors: {},
+    envelope: [],
+    isLoading: false
+  };
 
   onSubmit = (e) => {
     e.preventDefault();
@@ -36,36 +35,42 @@ class DocusignForm extends Component {
   }
 
   isValid = () => {
-    // const { errors, isValid } = validateInput(this.state);
-    // if (!isValid) {
-    //   this.setState({ errors });
-    // }
-    // return isValid;
-    return true;
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.errors) {
-      this.setState({
-        errors: nextProps.errors,
-        isLoading: false
-      });
+    const { errors, isValid } = validateInput(this.state);
+    if (!isValid) {
+      this.setState({ errors });
     }
+    return isValid;
   }
 
-  componentDidMount() {
-    console.log('fwefw')
+  static getDerivedStateFromProps(props, state) {
+    console.log(props, state)
+    if (!_.isEmpty(props.errors)) {
+      state.envelope.push({status: 'error'})
+      return {
+        errors: props.errors,
+        isLoading: false
+      };
+    } 
+    if (!_.isEmpty(props.envelope.status)) {
+      state.envelope.push({...props.envelope})
+       return {
+        isLoading: false
+      };
+    }
+
+    return null;
   }
 
   render() {
+    console.log(this.state)
     const { 
       firstName, lastName, phoneNumber, email, address, city, state, errors, isLoading 
     } = this.state;
 
     return(
       <div className="register-form">
-        <Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle'>
-          <Grid.Column style={{ maxWidth: '600px' }}>
+        <Grid columns='equal' textAlign='center' style={{ height: '100%' }} className="layout-container">
+          <Grid.Column  width={8} style={{maxWidth: '650px'}}>
             <Form size='large' onSubmit={this.onSubmit}>
               <Segment stacked className='form-body'>
                 <Header as='h2' color='teal' textAlign='center' className="document-title">
@@ -167,7 +172,7 @@ class DocusignForm extends Component {
                 </Grid>
                 
                 <Grid.Row className="form-footer">
-                  <Button color='teal' fluid size='large' disabled={isLoading} className="docusign-btn">
+                  <Button color='teal' fluid size='large' disabled={isLoading} className="docusign-btn" >
                     {!isLoading
                       ? 'Docusign'
                       : <Loader active inverted inline size='small' />
@@ -178,6 +183,10 @@ class DocusignForm extends Component {
               </Segment>
             </Form>
           </Grid.Column>
+          <Grid.Column width={1} />
+          <Grid.Column width={3}>
+            <Messages msg={this.state.envelope} />
+          </Grid.Column>
         </Grid>
       </div>
     )
@@ -185,11 +194,12 @@ class DocusignForm extends Component {
 }
 
 DocusignForm.propTypes = {
-  errors: PropTypes.object.isRequired
+  errors: PropTypes.object.isRequired,
 }
 
 const mapStateToProps = (state) => ({
-  errors: state.errors
+  errors: state.errors,
+  envelope: state.envelope
 })
 
 export default connect(mapStateToProps, { sendEnvelope })(DocusignForm)

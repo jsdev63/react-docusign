@@ -25,3 +25,6 @@
   margin-right: auto !important;
   margin-bottom: 40px !important;
 }
+.layout-container>div{
+  padding: 0px !important;
+}

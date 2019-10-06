@@ -58,9 +58,25 @@ function makeEnvelope(args){
             ]
         }
     });
+    console.log(signer1)
     
 
     env.templateRoles = [signer1];
+    env.eventNotification = {
+        "url": "https://react-docusign.netlify.com/callback",
+        "includeCertificateOfCompletion": "false",
+        "includeDocuments": "true",
+        "includeDocumentFields": "true",
+        "requireAcknowledgment": "true",
+        "envelopeEvents": [{
+           "envelopeEventStatusCode": "sent",
+           "envelopeEventStatusCode": "delivered",
+           "envelopeEventStatusCode": "declined",
+           "envelopeEventStatusCode": "voided",
+           "envelopeEventStatusCode": "completed",
+        }]
+   }
+    // "eventNotification": event_notification,
     env.status = "sent";
 
     return env;
@@ -75,13 +91,26 @@ DsEnvelope.sendEnvelope = async function(params) {
     let envelope = makeEnvelope(params)
 
     try {
+        // console.log(docusign)
+        // console.log(envelopesApi)
         let results = await envelopesApi.createEnvelope(
             dsJwtAuth.accountId, {
                 envelopeDefinition: envelope
             }
         );
-        return results;
+        return {...results, msg: 'Envelope was created successfully'};
     } catch (err) {
-        return {status: 'Bad Request'}
+        return {status: 'error', msg: 'Bad Request, please try it later'}
     }
 }
+
+async function start() {
+    await dsJwtAuth.checkToken();
+    let dsApiClient = new docusign.ApiClient();
+    dsApiClient.addDefaultHeader('Authorization', 'Bearer ' + dsJwtAuth.accessToken);
+    dsApiClient.setBasePath(dsJwtAuth.basePath);
+    let envelopesApi = new docusign.EnvelopesApi(dsApiClient);
+    let connectApi = new docusign.ConnectApi(dsApiClient);
+    console.log(envelopesApi.createEnvelope, connectApi)
+}
+// start()

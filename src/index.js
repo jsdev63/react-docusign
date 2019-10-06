@@ -8,10 +8,7 @@ import 'semantic-ui-css/semantic.min.css';
 import './style.css';
 
 const initialState = {
-  user: {
-    isAuthenticated: false,
-    profile: {}
-  }
+  envelope: {}
 };
 
 const store = configureStore(initialState);

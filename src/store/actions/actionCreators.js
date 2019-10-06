@@ -1,21 +1,9 @@
-import { SET_CURRENT_USER, REGISTER_SUCCESS, LOGOUT, GET_ERRORS } from "./types";
+import { SET_EVELOPE_STATUS, GET_ERRORS } from "./types";
 
-export function setCurrentUser(user) {
+export function setEnvelopeStatus(envelope) {
   return {
-    type: SET_CURRENT_USER,
-    payload: user
-  }
-}
-
-export function registerSuccess() {
-  return {
-    type: REGISTER_SUCCESS
-  }
-}
-
-export function logoutUser() {
-  return {
-    type: LOGOUT
+    type: SET_EVELOPE_STATUS,
+    payload: envelope
   }
 }
 
