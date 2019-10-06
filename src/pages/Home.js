@@ -43,7 +43,6 @@ class DocusignForm extends Component {
   }
 
   static getDerivedStateFromProps(props, state) {
-    console.log(props, state)
     if (!_.isEmpty(props.errors)) {
       state.envelope.push({status: 'error'})
       return {
@@ -62,7 +61,6 @@ class DocusignForm extends Component {
   }
 
   render() {
-    console.log(this.state)
     const { 
       firstName, lastName, phoneNumber, email, address, city, state, errors, isLoading 
     } = this.state;
