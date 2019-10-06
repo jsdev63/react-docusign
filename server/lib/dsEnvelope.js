@@ -63,7 +63,7 @@ function makeEnvelope(args){
 
     env.templateRoles = [signer1];
     env.eventNotification = {
-        "url": "https://react-docusign.netlify.com/callback",
+        "url": "https://react-docusign.jsdev63.now.sh/callback",
         "includeCertificateOfCompletion": "false",
         "includeDocuments": "true",
         "includeDocumentFields": "true",
