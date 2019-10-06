@@ -23,6 +23,13 @@ const authUser = (req) => {
   return req.body.email === testUser.email && req.body.password === testUser.password;
 }
 
+server.get('/api', (req, res) => {
+  console.log('Your server is running correctly');
+   res.status(200).json({
+    success: 'Your server is running correctly'
+  });
+});
+
 server.post('/sendEnvelope', async (req, res) => {
   const results = await dsEnvelope.sendEnvelope(req.body)
   console.log(results)
@@ -44,5 +51,5 @@ server.get('/profile', (req, res) => {
 });
 
 server.listen(5000, () => {
-  console.log('JSON Server is running..');
+  console.log('JSON Server is running.. on 5000');
 });
