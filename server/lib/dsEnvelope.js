@@ -58,12 +58,11 @@ function makeEnvelope(args){
             ]
         }
     });
-    console.log(signer1)
     
 
     env.templateRoles = [signer1];
     env.eventNotification = {
-        "url": "https://react-docusign.jsdev63.now.sh/callback",
+        "url": "https://real-server.herokuapp.com/docusign/callback",
         "includeCertificateOfCompletion": "false",
         "includeDocuments": "true",
         "includeDocumentFields": "true",
