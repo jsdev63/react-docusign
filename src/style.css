@@ -28,3 +28,8 @@
 .layout-container>div{
   padding: 0px !important;
 }
+
+.field>label{
+  text-align: left !important;
+  padding-left: 7px !important;
+}
