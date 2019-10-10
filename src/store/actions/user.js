@@ -7,8 +7,8 @@ const {
 }  = config;
 
 export const login = (history) => dispatch => {
-  const reqAuth = `https://account-d.docusign.com/oauth/auth?response_type=code&scope=signature&client_id=${clientID}&state=a39fh23hnf23&redirect_uri=${callbackURL}`
-    window.location = reqAuth;
+//   const reqAuth = `https://account-d.docusign.com/oauth/auth?response_type=code&scope=signature&client_id=${clientID}&state=a39fh23hnf23&redirect_uri=${callbackURL}`
+//     window.location = reqAuth;
 }
 
 export const getToken = (code) => dispatch => {
