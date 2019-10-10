@@ -11,6 +11,7 @@ class App extends Component {
           <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/ds/callback" component={Callback} />
+            <Route exact path="/callback" component={Home} />
           </Switch>
         </div>
       )
