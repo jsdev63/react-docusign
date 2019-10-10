@@ -2,38 +2,66 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { Loader } from 'semantic-ui-react'
+import { Loader, Grid, Message } from 'semantic-ui-react'
 import { getToken } from '../store/actions/user';
+
 var _ = require('lodash');
 
-class Callback extends Component {
-  state={}
+const getAuthCode = (props) => {
+  const search = window.location.search, params = new URLSearchParams(search);
+  return params.get('code');
+}
 
-  static getDerivedStateFromProps(props) {
-    const search = props.location.search, params = new URLSearchParams(search);
-    const authCode = params.get('code');
-    console.log('-------- callback')
-    console.log(props.token)
-    if(!_.isEmpty(authCode) && _.isEmpty(props.token.access_token)) {
-       props.getToken(authCode);
+class Callback extends Component {
+  state={
+    isload: true
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    if(!_.isEmpty(props.user.accessToken) | !_.isEmpty(props.errors)) {
+       return state.isload = false
     }
+    return true;
+  }
+
+  componentDidMount() {
+    const authCode = getAuthCode();
+    if(!_.isEmpty(authCode) && _.isEmpty(this.props.user.accessToken)) {
+      this.props.getToken(authCode);
+   }
   }
 
   render() {
-    // if(!_.isEmpty(this.props.user.access_token)) {
-    //   return <Redirect to='/' />
-    // } 
+    if(!_.isEmpty(this.props.user.accessToken)) {
+      return <Redirect to='/' />
+    } 
       
-    return null
+    return (
+      <Grid textAlign='center' centered style={{ height: '100%' }} className="centered">
+        <Grid.Column  style={{ paddingTop: '50vh'}}>
+          { this.state.isload?
+            <Loader active inline='centered' size='large'>Loading</Loader>
+            :
+            <Message
+              warning
+              header='Bad request, Please go home page!'
+              content='Your token is invlaid, please try again.'
+              style={{width: '50%', margin: 'auto', textAlign: 'center'}}
+            />
+          }
+        </Grid.Column>
+      </Grid>
+    )
   }
 }
 
 Callback.propTypes = {
-  errors: PropTypes.object.isRequired
+  errors: PropTypes.string,
+  user: PropTypes.object
 }
 
 const mapStateToProps = state => ({
-  token: state.token,
+  user: state.user,
   errors: state.errors
 })
 

@@ -1,10 +1,10 @@
 import { combineReducers } from "redux";
 import envelope from './envelope';
-import token from './token';
+import user from './user';
 import errors from './errors';
 
 export default combineReducers({
-  token,
+  user,
   envelope,
   errors
 })

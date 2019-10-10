@@ -27,7 +27,7 @@ class DocusignForm extends Component {
     e.preventDefault();
     if (this.isValid()) {
       this.setState({ errors: {}, isLoading: true });
-      this.props.sendEnvelope(this.state, this.props.history);
+      this.props.sendEnvelope(this.state, this.props);
     }
   }
 
@@ -44,7 +44,7 @@ class DocusignForm extends Component {
   }
 
   static getDerivedStateFromProps(props, state) {
-    console.log(props.token)
+    console.log(props.user)
     if (!_.isEmpty(props.errors)) {
       state.envelope.push({status: 'error'})
       return {
@@ -59,7 +59,7 @@ class DocusignForm extends Component {
       };
     }
 
-    return null;
+    return true;
   }
 
   render() {
@@ -67,13 +67,13 @@ class DocusignForm extends Component {
       firstName, lastName, phoneNumber, email, address, city, state, errors, isLoading, loginFlag 
     } = this.state;
 
-    if(_.isEmpty(this.props.token.access_token)) {
+    if(_.isEmpty(this.props.user.accessToken)) {
       this.props.login(this.props.history)
       return <Loader active inverted inline size='large' />
     } else {
       return(
         <div className="register-form">
-          <Grid columns='equal' textAlign='center' style={{ height: '100%' }} className="layout-container">
+          <Grid columns='equal' textAlign='center' style={{ height: '100%' }} className="stackable layout-container">
             <Grid.Column  width={8} style={{maxWidth: '650px'}}>
               <Form size='large' onSubmit={this.onSubmit}>
                 <Segment stacked className='form-body'>
@@ -199,13 +199,13 @@ class DocusignForm extends Component {
 }
 
 DocusignForm.propTypes = {
-  errors: PropTypes.object.isRequired,
+  errors: PropTypes.string.isRequired,
 }
 
 const mapStateToProps = (state) => ({
   errors: state.errors,
   envelope: state.envelope,
-  token: state.token,
+  user: state.user,
 })
 
 export default connect(mapStateToProps, { sendEnvelope, login })(DocusignForm)

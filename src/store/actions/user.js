@@ -14,18 +14,14 @@ export const login = (history) => dispatch => {
 export const getToken = (code) => dispatch => {
     UserService.getToken(code).then(res => {
         console.log(res.data)
-        if(res.data.status ==='success') {
-            // dispatch(setUserToken(res.data))
+        if(res.data.accessToken) {
+            dispatch(setUserToken(res.data))
         } else {
-            // dispatch(getErrors({
-            //     tokenError: res.data
-            // }))
+            dispatch(getErrors('token request error'));            
         }
     }).catch(error => {
         if (error.response) {
-            dispatch(getErrors({
-                tokenError: error.response.data
-            }));
+            dispatch(getErrors('token request error'));
         }
     })
 }

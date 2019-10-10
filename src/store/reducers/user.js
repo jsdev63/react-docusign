@@ -1,6 +1,6 @@
 import { SET_USER_TOKEN } from "../actions/types";
 
-const token = (state = {}, action) => {
+const user = (state = {}, action) => {
   switch (action.type) {
     case SET_USER_TOKEN:
       return action.payload;
@@ -9,4 +9,4 @@ const token = (state = {}, action) => {
   }
 }
 
-export default token;
+export default user;
