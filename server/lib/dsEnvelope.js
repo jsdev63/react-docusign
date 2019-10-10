@@ -70,8 +70,7 @@ function makeEnvelope(args){
            "envelopeEventStatusCode": "completed",
         }]
    }
-    // "eventNotification": event_notification,
-    env.status = "created";
+    env.status = "sent";
 
     return env;
 }

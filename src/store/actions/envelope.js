@@ -1,8 +1,8 @@
 import EnvelopeService from '../../services/EnvelopeService';
 import { setEnvelopeStatus, getErrors } from "./actionCreators";
 
-export const sendEnvelope = (state, history) => dispatch => {
-    EnvelopeService.sendEnvelope(state).then(res => {
+export const sendEnvelope = (state, history, token) => dispatch => {
+    EnvelopeService.sendEnvelope({data: state, token: token}).then(res => {
         if(res.data.status) {
             dispatch(setEnvelopeStatus(res.data))
         } 

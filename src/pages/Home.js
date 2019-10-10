@@ -27,7 +27,7 @@ class DocusignForm extends Component {
     e.preventDefault();
     if (this.isValid()) {
       this.setState({ errors: {}, isLoading: true });
-      this.props.sendEnvelope(this.state, this.props);
+      this.props.sendEnvelope(this.state, this.props.history, this.props.user);
     }
   }
 
