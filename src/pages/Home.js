@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Button, Form, Grid, Header, Segment, Loader } from 'semantic-ui-react'
-import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Messages } from '../components/Messages';
