@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Button, Form, Grid, Header, Segment, Loader } from 'semantic-ui-react'
-// import { Link, Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Messages } from '../components/Messages';
@@ -44,7 +44,6 @@ class DocusignForm extends Component {
   }
 
   static getDerivedStateFromProps(props, state) {
-    console.log(props.user)
     if (!_.isEmpty(props.errors)) {
       state.envelope.push({status: 'error'})
       return {
@@ -52,7 +51,7 @@ class DocusignForm extends Component {
         isLoading: false
       };
     } 
-    if (!_.isEmpty(props.envelope.status)) {
+    if (!_.isEmpty(props.envelope.url)) {
       state.envelope.push({...props.envelope})
        return {
         isLoading: false
@@ -62,11 +61,16 @@ class DocusignForm extends Component {
     return true;
   }
 
+
   render() {
     const { 
       firstName, lastName, phoneNumber, email, address, city, state, errors, isLoading, loginFlag 
     } = this.state;
-
+    const redirectURL = this.props.envelope.url;
+    if(!_.isEmpty(redirectURL)) {
+      window.location.replace(redirectURL)
+    }
+  
     if(_.isEmpty(this.props.user.accessToken)) {
       this.props.login(this.props.history)
       return <Loader active inverted inline size='large' />

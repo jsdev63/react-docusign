@@ -3,13 +3,13 @@ import { setEnvelopeStatus, getErrors } from "./actionCreators";
 
 export const sendEnvelope = (state, history, token) => dispatch => {
     EnvelopeService.sendEnvelope({data: state, token: token}).then(res => {
-        if(res.data.status) {
+        if(res.data) {
             dispatch(setEnvelopeStatus(res.data))
         } 
     }).catch(error => {
-        if (error.response.data) {
+        if (error.response) {
             dispatch(getErrors({
-                envelopeError: error.response.data.error
+                envelopeError: 'error.response.data.error'
             }));
         }
     })

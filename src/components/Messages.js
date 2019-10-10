@@ -17,7 +17,7 @@ export const Messages = ({msg}) => (msg.map((item, index) => {
                 color = 'yellow'; text= 'It was declined'; break;
             }
             default: {
-                color = 'blue'; text= item.status;
+                color = 'blue'; text= 'Successfully was sent';
             }
         }
 

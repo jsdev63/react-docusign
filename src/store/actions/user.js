@@ -13,7 +13,6 @@ export const login = (history) => dispatch => {
 
 export const getToken = (code) => dispatch => {
     UserService.getToken(code).then(res => {
-        console.log(res.data)
         if(res.data.accessToken) {
             dispatch(setUserToken(res.data))
         } else {
