@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import { Button, Form, Grid, Header, Segment, Loader } from 'semantic-ui-react'
-// import { Link } from 'react-router-dom';
+// import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Messages } from '../components/Messages';
 import validateInput from '../validators/docsForm';
 import { sendEnvelope } from '../store/actions/envelope';
+import { login } from '../store/actions/user';
 var _ = require('lodash');
 
 class DocusignForm extends Component {
@@ -13,13 +14,13 @@ class DocusignForm extends Component {
     firstName: 'Test',
     lastName: 'User',
     phoneNumber: '123123',
-    email: 'testatwe',
+    email: 'test@test.com',
     address: 'fwefwefwe',
     city: '234234',
     state: '12312',
     errors: {},
     envelope: [],
-    isLoading: false
+    isLoading: false,
   };
 
   onSubmit = (e) => {
@@ -43,6 +44,7 @@ class DocusignForm extends Component {
   }
 
   static getDerivedStateFromProps(props, state) {
+    console.log(props.token)
     if (!_.isEmpty(props.errors)) {
       state.envelope.push({status: 'error'})
       return {
@@ -62,132 +64,137 @@ class DocusignForm extends Component {
 
   render() {
     const { 
-      firstName, lastName, phoneNumber, email, address, city, state, errors, isLoading 
+      firstName, lastName, phoneNumber, email, address, city, state, errors, isLoading, loginFlag 
     } = this.state;
 
-    return(
-      <div className="register-form">
-        <Grid columns='equal' textAlign='center' style={{ height: '100%' }} className="layout-container">
-          <Grid.Column  width={8} style={{maxWidth: '650px'}}>
-            <Form size='large' onSubmit={this.onSubmit}>
-              <Segment stacked className='form-body'>
-                <Header as='h2' color='teal' textAlign='center' className="document-title">
-                  Docusign Consept Proof Example
-                </Header>
-                
-                <Grid columns={2} stackable textAlign='center'>
-                  <Grid.Row verticalAlign='middle'>
-                    <Grid.Column>
-                      <Form.Input
-                        fluid
-                        placeholder='First Name'
-                        name='firstName'
-                        defaultValue={firstName}
-                        error={errors.firstName ? true : false}
-                        onChange={this.onChange}
-                      />
-                    </Grid.Column>
-
-                    <Grid.Column>
-                      <Form.Input
-                        fluid
-                        placeholder='Last Name'
-                        name='lastName'
-                        defaultValue={lastName}
-                        error={errors.lastName ? true : false}
-                        onChange={this.onChange}
-                      />
-                    </Grid.Column>
+    if(_.isEmpty(this.props.token.access_token)) {
+      this.props.login(this.props.history)
+      return <Loader active inverted inline size='large' />
+    } else {
+      return(
+        <div className="register-form">
+          <Grid columns='equal' textAlign='center' style={{ height: '100%' }} className="layout-container">
+            <Grid.Column  width={8} style={{maxWidth: '650px'}}>
+              <Form size='large' onSubmit={this.onSubmit}>
+                <Segment stacked className='form-body'>
+                  <Header as='h2' color='teal' textAlign='center' className="document-title">
+                    Docusign Consept Proof Example
+                  </Header>
+                  
+                  <Grid columns={2} stackable textAlign='center'>
+                    <Grid.Row verticalAlign='middle'>
+                      <Grid.Column>
+                        <Form.Input
+                          fluid
+                          placeholder='First Name'
+                          name='firstName'
+                          defaultValue={firstName}
+                          error={errors.firstName ? true : false}
+                          onChange={this.onChange}
+                        />
+                      </Grid.Column>
+  
+                      <Grid.Column>
+                        <Form.Input
+                          fluid
+                          placeholder='Last Name'
+                          name='lastName'
+                          defaultValue={lastName}
+                          error={errors.lastName ? true : false}
+                          onChange={this.onChange}
+                        />
+                      </Grid.Column>
+                    </Grid.Row>
+                  </Grid>
+  
+                  <Grid columns={2} stackable textAlign='center'>
+                    <Grid.Row verticalAlign='middle'>
+                      <Grid.Column>
+                        <Form.Input
+                          fluid
+                          placeholder='Phone Number'
+                          name='phoneNumber'
+                          defaultValue={phoneNumber}
+                          error={errors.phoneNumber ? true : false}
+                          onChange={this.onChange}
+                        />
+                      </Grid.Column>
+  
+                      <Grid.Column>
+                        <Form.Input
+                          fluid
+                          type='email'
+                          placeholder='Email'
+                          name='email'
+                          defaultValue={email}
+                          error={errors.email ? true : false}
+                          onChange={this.onChange}
+                        />
+                      </Grid.Column>
+                    </Grid.Row>
+                  </Grid> 
+                  
+                  <Grid columns={1} stackable textAlign='center' className="form-spacing">
+                    <Grid.Row verticalAlign='middle'>
+                      <Grid.Column>
+                        <Form.Input
+                          fluid
+                          placeholder='Address'
+                          name='address'
+                          defaultValue={address}
+                          error={errors.address ? true : false}
+                          onChange={this.onChange}
+                        />
+                      </Grid.Column>
+                    </Grid.Row>
+                  </Grid>
+  
+                  <Grid columns={2} stackable textAlign='center'>
+                    <Grid.Row verticalAlign='middle'>
+                      <Grid.Column>
+                        <Form.Input
+                          fluid
+                          placeholder='City'
+                          name='city'
+                          defaultValue={city}
+                          error={errors.city ? true : false}
+                          onChange={this.onChange}
+                        />
+                      </Grid.Column>
+  
+                      <Grid.Column>
+                        <Form.Input
+                          fluid
+                          placeholder='State'
+                          name='state'
+                          defaultValue={state}
+                          error={errors.state ? true : false}
+                          onChange={this.onChange}
+                        />
+                      </Grid.Column>
+                    </Grid.Row>
+                  </Grid>
+                  
+                  <Grid.Row className="form-footer">
+                    <Button color='teal' fluid size='large' disabled={isLoading} className="docusign-btn" >
+                      {!isLoading
+                        ? 'Docusign'
+                        : <Loader active inverted inline size='small' />
+                      }
+                    </Button>
                   </Grid.Row>
-                </Grid>
-
-                <Grid columns={2} stackable textAlign='center'>
-                  <Grid.Row verticalAlign='middle'>
-                    <Grid.Column>
-                      <Form.Input
-                        fluid
-                        placeholder='Phone Number'
-                        name='phoneNumber'
-                        defaultValue={phoneNumber}
-                        error={errors.phoneNumber ? true : false}
-                        onChange={this.onChange}
-                      />
-                    </Grid.Column>
-
-                    <Grid.Column>
-                      <Form.Input
-                        fluid
-                        type='email'
-                        placeholder='Email'
-                        name='email'
-                        defaultValue={email}
-                        error={errors.email ? true : false}
-                        onChange={this.onChange}
-                      />
-                    </Grid.Column>
-                  </Grid.Row>
-                </Grid> 
-                
-                <Grid columns={1} stackable textAlign='center' className="form-spacing">
-                  <Grid.Row verticalAlign='middle'>
-                    <Grid.Column>
-                      <Form.Input
-                        fluid
-                        placeholder='Address'
-                        name='address'
-                        defaultValue={address}
-                        error={errors.address ? true : false}
-                        onChange={this.onChange}
-                      />
-                    </Grid.Column>
-                  </Grid.Row>
-                </Grid>
-
-                <Grid columns={2} stackable textAlign='center'>
-                  <Grid.Row verticalAlign='middle'>
-                    <Grid.Column>
-                      <Form.Input
-                        fluid
-                        placeholder='City'
-                        name='city'
-                        defaultValue={city}
-                        error={errors.city ? true : false}
-                        onChange={this.onChange}
-                      />
-                    </Grid.Column>
-
-                    <Grid.Column>
-                      <Form.Input
-                        fluid
-                        placeholder='State'
-                        name='state'
-                        defaultValue={state}
-                        error={errors.state ? true : false}
-                        onChange={this.onChange}
-                      />
-                    </Grid.Column>
-                  </Grid.Row>
-                </Grid>
-                
-                <Grid.Row className="form-footer">
-                  <Button color='teal' fluid size='large' disabled={isLoading} className="docusign-btn" >
-                    {!isLoading
-                      ? 'Docusign'
-                      : <Loader active inverted inline size='small' />
-                    }
-                  </Button>
-                </Grid.Row>
-
-              </Segment>
-            </Form>
-          </Grid.Column>
-          <Grid.Column width={1} />
-          <Grid.Column width={3}>
-            <Messages msg={this.state.envelope} />
-          </Grid.Column>
-        </Grid>
-      </div>
-    )
+  
+                </Segment>
+              </Form>
+            </Grid.Column>
+            <Grid.Column width={1} />
+            <Grid.Column width={3}>
+              <Messages msg={this.state.envelope} />
+            </Grid.Column>
+          </Grid>
+        </div>
+      )
+    }
   }
 }
 
@@ -197,7 +204,8 @@ DocusignForm.propTypes = {
 
 const mapStateToProps = (state) => ({
   errors: state.errors,
-  envelope: state.envelope
+  envelope: state.envelope,
+  token: state.token,
 })
 
-export default connect(mapStateToProps, { sendEnvelope })(DocusignForm)
+export default connect(mapStateToProps, { sendEnvelope, login })(DocusignForm)

@@ -1,17 +1,16 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
-
 import Home from './pages/Home';
-import Result from './pages/Result';
+import Callback from './pages/Callback';
 
 class App extends Component {
-   render() {
+  render() {
       return (
         <div>
           <Switch>
             <Route exact path="/" component={Home} />
-            <Route exact path="/callback" component={Result} />
+            <Route exact path="/ds/callback" component={Callback} />
           </Switch>
         </div>
       )

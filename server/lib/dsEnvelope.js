@@ -1,11 +1,8 @@
 
-'use strict';
 let DsEnvelope = {};
 module.exports = DsEnvelope;
 
-const moment = require('moment'), 
-    path = require('path'),
-    docusign = require('docusign-esign'),
+const docusign = require('docusign-esign'),
     dsJwtAuth = require('./dsJwtAuth'),
     config = require('../config.js');
 
@@ -17,6 +14,8 @@ function makeEnvelope(args){
         email: args.email,
         name: args.firstName + " " + args.lastName,
         roleName: 'Contact',
+        "recipientId": "1",
+        "clientUserId": "1234",
         "tabs": {
             "textTabs": [
                 {
@@ -68,15 +67,11 @@ function makeEnvelope(args){
         "includeDocumentFields": "true",
         "requireAcknowledgment": "true",
         "envelopeEvents": [{
-           "envelopeEventStatusCode": "sent",
-           "envelopeEventStatusCode": "delivered",
-           "envelopeEventStatusCode": "declined",
-           "envelopeEventStatusCode": "voided",
            "envelopeEventStatusCode": "completed",
         }]
    }
     // "eventNotification": event_notification,
-    env.status = "sent";
+    env.status = "created";
 
     return env;
 }
@@ -103,13 +98,13 @@ DsEnvelope.sendEnvelope = async function(params) {
     }
 }
 
-async function start() {
-    await dsJwtAuth.checkToken();
-    let dsApiClient = new docusign.ApiClient();
-    dsApiClient.addDefaultHeader('Authorization', 'Bearer ' + dsJwtAuth.accessToken);
-    dsApiClient.setBasePath(dsJwtAuth.basePath);
-    let envelopesApi = new docusign.EnvelopesApi(dsApiClient);
-    let connectApi = new docusign.ConnectApi(dsApiClient);
-    console.log(envelopesApi.createEnvelope, connectApi)
-}
-// start()
+// async function start() {
+//     await dsJwtAuth.checkToken();
+//     let dsApiClient = new docusign.ApiClient();
+//     dsApiClient.addDefaultHeader('Authorization', 'Bearer ' + dsJwtAuth.accessToken);
+//     dsApiClient.setBasePath(dsJwtAuth.basePath);
+//     let envelopesApi = new docusign.EnvelopesApi(dsApiClient);
+//     let connectApi = new docusign.ConnectApi(dsApiClient);
+//     console.log(envelopesApi.createEnvelope, connectApi)
+// }
+// // start()

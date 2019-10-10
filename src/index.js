@@ -9,7 +9,8 @@ import './style.css';
 
 
 const initialState = {
-  envelope: {}
+  envelope: {},
+  user: {}
 };
 
 const store = configureStore(initialState);
