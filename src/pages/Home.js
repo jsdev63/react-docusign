@@ -89,6 +89,7 @@ class DocusignForm extends Component {
                       <Grid.Column>
                         <Form.Input
                           fluid
+                          label='First Name'
                           placeholder='First Name'
                           name='firstName'
                           defaultValue={firstName}
@@ -100,6 +101,7 @@ class DocusignForm extends Component {
                       <Grid.Column>
                         <Form.Input
                           fluid
+                          label='Last Name'
                           placeholder='Last Name'
                           name='lastName'
                           defaultValue={lastName}
@@ -115,6 +117,7 @@ class DocusignForm extends Component {
                       <Grid.Column>
                         <Form.Input
                           fluid
+                          label='Phone Number'
                           placeholder='Phone Number'
                           name='phoneNumber'
                           defaultValue={phoneNumber}
@@ -126,6 +129,7 @@ class DocusignForm extends Component {
                       <Grid.Column>
                         <Form.Input
                           fluid
+                          label='Email Address'
                           type='email'
                           placeholder='Email'
                           name='email'
@@ -142,6 +146,7 @@ class DocusignForm extends Component {
                       <Grid.Column>
                         <Form.Input
                           fluid
+                          label='Address'
                           placeholder='Address'
                           name='address'
                           defaultValue={address}
@@ -157,6 +162,7 @@ class DocusignForm extends Component {
                       <Grid.Column>
                         <Form.Input
                           fluid
+                          label='City'
                           placeholder='City'
                           name='city'
                           defaultValue={city}
@@ -168,6 +174,7 @@ class DocusignForm extends Component {
                       <Grid.Column>
                         <Form.Input
                           fluid
+                          label='State'
                           placeholder='State'
                           name='state'
                           defaultValue={state}
