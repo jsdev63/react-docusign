@@ -11,7 +11,7 @@
 ## How to Run 
 ```
 cd project_root_path
-npm intall
+npm install
 npm start
 ```
 
