@@ -63,7 +63,7 @@ class DocusignForm extends Component {
 
   render() {
     const { 
-      firstName, lastName, phoneNumber, email, address, city, state, errors, isLoading, loginFlag 
+      firstName, lastName, phoneNumber, email, address, city, state, errors, isLoading 
     } = this.state;
     const redirectURL = this.props.envelope.url;
     if(!_.isEmpty(redirectURL)) {
